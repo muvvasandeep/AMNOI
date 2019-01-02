@@ -11,7 +11,7 @@ How to calculate AMNOI(API Method Name Overload Index) metric
 	AMNOI = (AMNOI(G1)+AMNOI(G2)+......+AMNOI(GN))/N
 
 System Requirements:
-	UNIX operating system with g++, lex and amke packaes installed
+	LINUX operating system with g++, lex and amke packaes installed
 	
 Instructions for executing the code:
 	step1: copy the source program for which AMNOI metric is to be found to input.cpp file
