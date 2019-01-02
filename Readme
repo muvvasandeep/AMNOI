@@ -1,4 +1,4 @@
-This source code is used to find the AMNOI metric for cpp programs that is stated in the paper "Some structural measures of API usability".
+This source code is used to find the AMNOI metric (for cpp programs) that is stated in the paper "Some structural measures of API usability".
 
 How to calculate AMNOI(API Method Name Overload Index) metric
 	G = {G1,G2,.....GN}
