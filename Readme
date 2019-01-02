@@ -1,0 +1,25 @@
+This source code is used to find the AMNOI metric for cpp programs that is stated in the paper "Some structural measures of API usability".
+
+How to calculate AMNOI(API Method Name Overload Index) metric
+	G = {G1,G2,.....GN}
+	where G1,G2,......GN are disjoint sets of overloaded methods and Gj is a set of overloaded methods with same name
+	
+	AMNOI(Gj) = 1 - ((|Return(m)|-1)/(|Gj|-1))
+	where Return(m) is set of return types of a paritucular method m
+	|X| represents number of elements in the set X
+	
+	AMNOI = (AMNOI(G1)+AMNOI(G2)+......+AMNOI(GN))/N
+
+System Requirements:
+	UNIX operating system with g++, lex and amke packaes installed
+	
+Instructions for executing the code:
+	step1: copy the source program for which AMNOI metric is to be found to input.cpp file
+	step2: run make check command
+		This command checks if the source program is syntactically correct or not
+	step3: run make clean to remove the executable files formed
+	step4: run make command
+	step5: run ./AMNOI input.cpp to get the AMNOI metric for your source code
+		where AMNOI is the name of the executable file formed when make command is executed
+		AMNOI metric of individual methods and for the whole program is displayed on the screen
+	step6: run make clean command to remove all the extra files formed when make command is executed
