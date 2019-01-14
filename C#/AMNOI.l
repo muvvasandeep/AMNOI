@@ -12,7 +12,7 @@ visibility	"public"|"private"|"protected"|"internal"
 
 %%
 
-{sp}*({visibility}|((protected){sp}+(internal))){sp}+{return_type}{sp}+{alpha}{iden}*{sp}*"("[^)]*")"{sp}*"{"[^}]*"}"	{
+{sp}*({visibility}|((protected){sp}+(internal))){sp}+((override){sp}+)?{alpha}{iden}+{sp}+{alpha}{iden}*{sp}*"("[^)]*")"[^{]*"{"[^}]*"}"	{
 		//Regular expression for template of function definition in C#
 		string temp_visibility = "";
 		string temp_method_name = "";
@@ -23,13 +23,22 @@ visibility	"public"|"private"|"protected"|"internal"
 			i++;
 		}
 		string temp_input = temp.substr(i,temp.length()-i);
-		stringstream ssin(temp_input);
-		getline(ssin,temp_visibility,' ');
-		getline(ssin,temp_data_type,' ');
-		getline(ssin,temp_method_name,'(');
-		stringstream ss(temp_method_name);
-		getline(ss,temp_method_name,' ');
-		cout<<temp_visibility<<" "<<temp_data_type<<" "<<temp_method_name<<endl;
+		vector<string> result;
+		std::istringstream iss(temp_input);
+		for(std::string s; iss >> s; )
+    			result.push_back(s);
+    		if(result[0]=="protected"&&result[1]=="internal"&&result[2]=="override"){
+    			temp_data_type = result[3];
+    			temp_method_name = result[4].substr(0,result[4].find('('));
+    		}
+    		else if((result[0]=="protected"&&result[1]=="internal")||(result[1]=="override")){
+    			temp_data_type = result[2];
+    			temp_method_name = result[3].substr(0,result[3].find('('));
+    		}
+    		else{
+    			temp_data_type = result[1];
+    			temp_method_name = result[2].substr(0,result[2].find('('));
+    		}
 		if(!check_method(temp_method_name,temp_list)){
 			method* temp_method = new method;
 			temp_method->method_name = temp_method_name;
@@ -64,20 +73,20 @@ int main(int argc, char *argv[]){
 	yyin = fopen(argv[1], "r");
 	yylex();
 	float AMNOI = 0;
-	print_sequence(30);
-	print_format(20,"method name");
+	print_sequence(50);
+	print_format(40,"method name");
 	print_format(10,"AMNOI");
 	cout<<endl;
-	print_sequence(30);
+	print_sequence(50);
 	for(int i=0;i<temp_list->list.size();i++){
 		if(temp_list->list[i]->AMNOI>0){
 			AMNOI+=temp_list->list[i]->AMNOI;
 		}
-		print_format(20,temp_list->list[i]->method_name);
+		print_format(40,temp_list->list[i]->method_name);
 		print_format(10,to_string(temp_list->list[i]->AMNOI));
 		cout<<endl;
 	}
-	print_sequence(30);
+	print_sequence(50);
 	AMNOI = AMNOI/temp_list->list.size();
 	cout<<"AMNOI for given cpp program is "<<AMNOI<<endl;
 	return 0;
