@@ -1,0 +1,25 @@
+This source code is used to find the AMNOI metric for c# programs that is stated in the paper "Some structural measures of API usability".
+
+How to calculate AMNOI(API Method Name Overload Index) metric
+	G = {G1,G2,.....GN}
+	where G1,G2,......GN are disjoint sets of overloaded methods and Gj is a set of overloaded methods with same name
+	
+	AMNOI(Gj) = 1 - ((|Return(m)|-1)/(|Gj|-1))
+	where Return(m) is set of return types of a paritucular method m
+	|X| represents number of elements in the set X
+	
+	AMNOI = (AMNOI(G1)+AMNOI(G2)+......+AMNOI(GN))/N
+
+System Requirements:
+	UNIX operating system with g++, lex and amke packaes installed
+
+Note:
+	Before finding the AMNOI metric make sure that source code is syntactically correct because this code doesnot check for syntactical correctness.
+
+Instructions for executing the code:
+	step1: copy the source program for which AMNOI metric is to be found to input.cs file
+	step2: run make command
+	step3: run ./AMNOI input.cs to get the AMNOI metric for your source code
+		where AMNOI is the name of the executable file formed when make command is executed
+		AMNOI metric of individual methods and for the whole program is displayed on the screen
+	step4: run make clean command to remove all the extra files formed when make command is executed
