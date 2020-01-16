@@ -45,6 +45,7 @@ visibility	"public"|"private"|"protected"|"internal"
 			temp_method->return_list.push_back(temp_data_type);
 			temp_method->temp_count.push_back(temp_method_name);
 			temp_method->AMNOI = 1-(((float)(temp_method->return_list.size())-1)/(temp_method->temp_count.size()-1));
+			temp_method->AMNOI = -1;
 			temp_list->list.push_back(temp_method);
 		}
 		else{
@@ -52,11 +53,17 @@ visibility	"public"|"private"|"protected"|"internal"
 			if(!check_return_type(temp_data_type,temp_method)){
 				temp_method->return_list.push_back(temp_data_type);
 				temp_method->temp_count.push_back(temp_method_name);
-				temp_method->AMNOI = 1-(((float)(temp_method->return_list.size())-1)/(temp_method->temp_count.size()-1));
+				if(temp_method->temp_count.size()!=0)
+					temp_method->AMNOI = 1-(((float)(temp_method->return_list.size())-1)/(temp_method->temp_count.size()-1));
+				else
+					temp_method->AMNOI = -1;
 			}
 			else{
 				temp_method->temp_count.push_back(temp_method_name);
-				temp_method->AMNOI = 1-(((float)(temp_method->return_list.size())-1)/(temp_method->temp_count.size()-1));
+				if(temp_method->temp_count.size()!=0)
+					temp_method->AMNOI = 1-(((float)(temp_method->return_list.size())-1)/(temp_method->temp_count.size()-1));
+				else
+					temp_method->AMNOI = -1;
 			}
 		}
 	}
@@ -65,7 +72,7 @@ visibility	"public"|"private"|"protected"|"internal"
 
 %%
 
-int main(int argc, char *argv[]){ 
+int main(int argc, char *argv[]){
 	if (argc != 2) {
 		 printf("\nUsage: <exefile> <inputfile>\n\n");
 		 exit(0);
@@ -73,6 +80,7 @@ int main(int argc, char *argv[]){
 	yyin = fopen(argv[1], "r");
 	yylex();
 	float AMNOI = 0;
+	int n = 0;
 	print_sequence(50);
 	print_format(40,"method name");
 	print_format(10,"AMNOI");
@@ -81,14 +89,20 @@ int main(int argc, char *argv[]){
 	for(int i=0;i<temp_list->list.size();i++){
 		if(temp_list->list[i]->AMNOI>0){
 			AMNOI+=temp_list->list[i]->AMNOI;
+			n++;
 		}
 		print_format(40,temp_list->list[i]->method_name);
 		print_format(10,to_string(temp_list->list[i]->AMNOI));
 		cout<<endl;
 	}
 	print_sequence(50);
-	AMNOI = AMNOI/temp_list->list.size();
-	cout<<"AMNOI for given cpp program is "<<AMNOI<<endl;
+	if(n>0){
+		AMNOI = AMNOI/n;
+		cout<<"AMNOI for given cpp program is "<<AMNOI<<endl;
+	}
+	else{
+		AMNOI = 0;
+		cout<<"No overloaded functions"<<endl;
+	}
 	return 0;
 }
-
