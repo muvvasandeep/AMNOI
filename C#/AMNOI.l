@@ -44,7 +44,6 @@ visibility	"public"|"private"|"protected"|"internal"
 			temp_method->method_name = temp_method_name;
 			temp_method->return_list.push_back(temp_data_type);
 			temp_method->temp_count.push_back(temp_method_name);
-			temp_method->AMNOI = 1-(((float)(temp_method->return_list.size())-1)/(temp_method->temp_count.size()-1));
 			temp_method->AMNOI = -1;
 			temp_list->list.push_back(temp_method);
 		}
